@@ -34,3 +34,8 @@ No build tools or server required.
 
 ### Option 1: Just open it
 Double-click `index.html` to open it directly in your browser.
+
+## Screenshot:
+
+<img width="1917" height="866" alt="todo-list" src="https://github.com/user-attachments/assets/f54a6afe-3048-4566-8ab5-72d278a0a38a" />
+
