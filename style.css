@@ -1,0 +1,315 @@
+/* =========================================================
+   Ahmed Nadeem — Interactive To-Do List
+   Design system: light, monochrome, dashboard-precise
+   ========================================================= */
+
+:root {
+  --bg: #ffffff;
+  --surface: #fafafa;
+  --surface-hover: #f4f4f5;
+  --border: #e4e4e7;
+  --border-strong: #d4d4d8;
+  --text-primary: #09090b;
+  --text-secondary: #71717a;
+  --text-tertiary: #a1a1aa;
+  --success: #17c964;
+  --success-bg: #eefcf3;
+  --danger: #e5484d;
+  --danger-bg: #fef2f2;
+
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 40px 40px;
+  background-position: center top;
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 64px 20px;
+  -webkit-font-smoothing: antialiased;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+input { font-family: inherit; }
+
+.app {
+  width: 100%;
+  max-width: 520px;
+}
+
+.app-header {
+  text-align: left;
+  margin-bottom: 28px;
+}
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.eyebrow .dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--success);
+}
+.app-header h1 {
+  font-size: 1.6rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.app-header p {
+  color: var(--text-secondary);
+  font-size: 0.92rem;
+  margin-top: 6px;
+}
+
+/* ---------- Card ---------- */
+.card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: 0 1px 2px rgba(9, 9, 11, 0.03), 0 8px 24px -12px rgba(9, 9, 11, 0.06);
+  overflow: hidden;
+}
+
+/* ---------- Progress ---------- */
+.progress-track {
+  height: 3px;
+  background: var(--border);
+  position: relative;
+}
+.progress-fill {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 0%;
+  background: var(--text-primary);
+  transition: width 0.35s var(--ease);
+}
+
+/* ---------- Add task form ---------- */
+.add-form {
+  display: flex;
+  gap: 10px;
+  padding: 20px 20px;
+  border-bottom: 1px solid var(--border);
+}
+.add-form input {
+  flex: 1;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 11px 14px;
+  font-size: 0.92rem;
+  color: var(--text-primary);
+  background: var(--surface);
+  transition: border-color 0.15s var(--ease), background 0.15s var(--ease);
+}
+.add-form input::placeholder { color: var(--text-tertiary); }
+.add-form input:focus {
+  outline: none;
+  border-color: var(--text-primary);
+  background: var(--bg);
+}
+.add-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: var(--text-primary);
+  color: var(--bg);
+  padding: 0 18px;
+  border-radius: var(--radius-sm);
+  font-size: 0.88rem;
+  font-weight: 500;
+  transition: opacity 0.15s var(--ease), transform 0.15s var(--ease);
+  white-space: nowrap;
+}
+.add-btn:hover { opacity: 0.85; transform: translateY(-1px); }
+.add-btn:active { transform: translateY(0); }
+
+/* ---------- Filters ---------- */
+.filters {
+  display: flex;
+  gap: 4px;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+.filter-btn {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  padding: 6px 13px;
+  border-radius: 100px;
+  color: var(--text-secondary);
+  transition: all 0.15s var(--ease);
+}
+.filter-btn:hover { color: var(--text-primary); }
+.filter-btn.active {
+  background: var(--bg);
+  color: var(--text-primary);
+  border: 1px solid var(--border-strong);
+}
+
+/* ---------- Task list ---------- */
+.task-list {
+  list-style: none;
+  max-height: 420px;
+  overflow-y: auto;
+}
+.task-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.15s var(--ease);
+  animation: slideIn 0.25s var(--ease);
+}
+.task-item:last-child { border-bottom: none; }
+.task-item:hover { background: var(--surface); }
+.task-item.is-hidden { display: none; }
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeOut {
+  to { opacity: 0; transform: scale(0.97); }
+}
+.task-item.removing { animation: fadeOut 0.2s var(--ease) forwards; }
+
+.task-check {
+  flex-shrink: 0;
+  width: 19px; height: 19px;
+  border: 1.5px solid var(--border-strong);
+  border-radius: 5px;
+  margin-top: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s var(--ease);
+}
+.task-check:hover { border-color: var(--text-primary); }
+.task-check svg {
+  width: 12px; height: 12px;
+  opacity: 0;
+  transform: scale(0.6);
+  transition: all 0.15s var(--ease);
+  stroke: white;
+}
+.task-item.completed .task-check {
+  background: var(--success);
+  border-color: var(--success);
+}
+.task-item.completed .task-check svg { opacity: 1; transform: scale(1); }
+
+.task-text {
+  flex: 1;
+  font-size: 0.94rem;
+  line-height: 1.5;
+  word-break: break-word;
+  padding-top: 1px;
+}
+.task-item.completed .task-text {
+  color: var(--text-tertiary);
+  text-decoration: line-through;
+  text-decoration-color: var(--border-strong);
+}
+
+.task-delete {
+  flex-shrink: 0;
+  width: 26px; height: 26px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-tertiary);
+  opacity: 0;
+  transition: all 0.15s var(--ease);
+}
+.task-item:hover .task-delete { opacity: 1; }
+.task-delete:hover { background: var(--danger-bg); color: var(--danger); }
+.task-delete svg { width: 15px; height: 15px; }
+
+/* ---------- Empty state ---------- */
+.empty-state {
+  padding: 56px 20px;
+  text-align: center;
+  color: var(--text-tertiary);
+}
+.empty-state svg { margin: 0 auto 14px; opacity: 0.5; }
+.empty-state p { font-size: 0.9rem; }
+.empty-state .sub { font-size: 0.8rem; margin-top: 4px; color: var(--text-tertiary); }
+
+/* ---------- Footer bar ---------- */
+.list-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 20px;
+  background: var(--surface);
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--text-secondary);
+}
+.clear-btn {
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  transition: color 0.15s var(--ease);
+}
+.clear-btn:hover { color: var(--danger); }
+.clear-btn:disabled { opacity: 0.4; cursor: default; }
+.clear-btn:disabled:hover { color: var(--text-secondary); }
+
+/* ---------- App footer note ---------- */
+.storage-note {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  justify-content: center;
+  margin-top: 22px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-tertiary);
+}
+.storage-note svg { width: 13px; height: 13px; }
+
+/* ---------- Scrollbar ---------- */
+.task-list::-webkit-scrollbar { width: 8px; }
+.task-list::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 8px; }
+.task-list::-webkit-scrollbar-track { background: transparent; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 480px) {
+  body { padding: 40px 16px; }
+  .add-form { flex-direction: column; }
+  .add-btn { padding: 11px; justify-content: center; }
+  .filters { overflow-x: auto; }
+}
